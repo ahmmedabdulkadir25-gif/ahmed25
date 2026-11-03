@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $studium = $_POST['studiumkode'];
 
         try {
-            $stmt = $conn->prepare(
+           $stmt = $mysqli->prepare(
                 "INSERT INTO klasse
                 (klassekode, klassenavn, studiumkode)
                 VALUES (?, ?, ?)"
