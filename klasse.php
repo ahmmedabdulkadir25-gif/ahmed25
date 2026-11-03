@@ -12,16 +12,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $studium = $_POST['studiumkode'];
 
         try {
-            $sql = "INSERT INTO klasse
-                    (klassekode, klassenavn, studiumkode)
-                    VALUES (?, ?, ?)";
+            $stmt = $conn->prepare(
+                "INSERT INTO klasse
+                (klassekode, klassenavn, studiumkode)
+                VALUES (?, ?, ?)"
+            );
 
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute([$kode, $navn, $studium]);
+            $stmt->bind_param("sss", $kode, $navn, $studium);
+            $stmt->execute();
 
             $melding = "Klassen ble registrert.";
 
-        } catch (PDOException $e) {
+        } catch (mysqli_sql_exception $e) {
             $melding = "Kunne ikke registrere klassen. Kontroller at klassekoden er unik.";
         }
     }
@@ -30,22 +32,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $kode = $_POST['slett'];
 
         try {
-            $stmt = $pdo->prepare(
+            $stmt = $conn->prepare(
                 "DELETE FROM klasse WHERE klassekode = ?"
             );
-            $stmt->execute([$kode]);
+
+            $stmt->bind_param("s", $kode);
+            $stmt->execute();
 
             $melding = "Klassen ble slettet.";
 
-        } catch (PDOException $e) {
+        } catch (mysqli_sql_exception $e) {
             $melding = "Klassen kunne ikke slettes. Den kan ha studenter tilknyttet seg.";
         }
     }
 }
 
-$stmt = $pdo->query("SELECT * FROM klasse ORDER BY klassekode");
-$klasser = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$resultat = $conn->query(
+    "SELECT * FROM klasse ORDER BY klassekode"
+);
+
+$klasser = $resultat->fetch_all(MYSQLI_ASSOC);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="no">
