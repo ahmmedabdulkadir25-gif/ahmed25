@@ -21,8 +21,7 @@ try {
 } catch (mysqli_sql_exception $e) {
     $melding = "Kunne ikke slette studenten.";
 }
-    }
-}
+   }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'
     && isset($_POST['registrer'])) {
