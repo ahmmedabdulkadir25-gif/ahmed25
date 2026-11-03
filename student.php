@@ -61,11 +61,15 @@ $melding = "Kunne ikke registrere studenten. Brukernavnet finnes kanskje allered
     }
 }
 
-$stmt = $pdo->query("SELECT * FROM student ORDER BY brukernavn");
-$studenter = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$resultat = $mysqli->query(
+    "SELECT * FROM student ORDER BY brukernavn"
+);
+$studenter = $resultat->fetch_all(MYSQLI_ASSOC);
 
-$stmt = $pdo->query("SELECT klassekode FROM klasse ORDER BY klassekode");
-$klasser = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$resultat = $mysqli->query(
+    "SELECT klassekode FROM klasse ORDER BY klassekode"
+);
+$klasser = $resultat->fetch_all(MYSQLI_ASSOC);
 
 ?>
 
