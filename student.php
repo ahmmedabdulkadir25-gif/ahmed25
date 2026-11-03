@@ -8,15 +8,19 @@ $melding = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['slett'])) {
     $brukernavn = $_POST['slett_brukernavn'] ?? '';
 
-    try {
-        $stmt = $pdo->prepare(
-            "DELETE FROM student WHERE brukernavn = ?"
-        );
-        $stmt->execute([$brukernavn]);
+try {
+    $stmt = $mysqli->prepare(
+        "DELETE FROM student WHERE brukernavn = ?"
+    );
 
-        $melding = 'Studenten ble slettet.';
-    } catch (PDOException $e) {
-        $melding = 'Kunne ikke slette studenten.';
+    $stmt->bind_param("s", $brukernavn);
+    $stmt->execute();
+
+    $melding = "Studenten ble slettet.";
+
+} catch (mysqli_sql_exception $e) {
+    $melding = "Kunne ikke slette studenten.";
+}
     }
 }
 
@@ -36,14 +40,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
             $sql = "INSERT INTO student
                     (brukernavn, fornavn, etternavn, klassekode)
                     VALUES (?, ?, ?, ?)";
+$stmt = $mysqli->prepare($sql);
 
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute([
-                $brukernavn,
-                $fornavn,
-                $etternavn,
-                $klassekode
-            ]);
+$stmt->bind_param(
+    "ssss",
+    $brukernavn,
+    $fornavn,
+    $etternavn,
+    $klassekode
+);
+
+$stmt->execute();
 
             $melding = 'Studenten ble registrert.';
     
