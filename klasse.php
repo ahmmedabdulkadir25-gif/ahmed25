@@ -35,7 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $mysqli->prepare(
     "DELETE FROM klasse WHERE klassekode = ?"
 );
-            );
 
             $stmt->bind_param("s", $kode);
             $stmt->execute();
