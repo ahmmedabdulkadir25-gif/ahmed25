@@ -54,7 +54,7 @@ $stmt->execute();
 
             $melding = 'Studenten ble registrert.';
     
-} catch (PDOException $e) {
+} catch (mysqli_sql_exception $e) {
 $melding = "Kunne ikke registrere studenten. Brukernavnet finnes kanskje allerede.";
 }
 
