@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$resultat = $conn->query(
+$resultat = $mysqli->query(
     "SELECT * FROM klasse ORDER BY klassekode"
 );
 
